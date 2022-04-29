@@ -1,0 +1,8 @@
+
+create table login(username varchar(30), name varchar(40), password varchar(30), question varchar(100), answer varchar(50));
+
+INSERT INTO login VALUES ('', 'nik', 'Nikhil', '1234', '', 'yeet', 'Admin');
+
+
+create table login(meter_no varchar(20), username varchar(30), name varchar(30), password varchar(30),question varchar(100),answer varchar(50),user varchar(30));
+
