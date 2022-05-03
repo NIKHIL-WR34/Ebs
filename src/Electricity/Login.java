@@ -17,6 +17,7 @@ public class Login extends JFrame implements ActionListener{
 	private JTextField textField;
 	private JPasswordField passwordField;
         private JButton b1,b2,b3;
+        private Choice c1;
 
 
 	public Login() {
@@ -30,11 +31,11 @@ public class Login extends JFrame implements ActionListener{
 	panel.setLayout(null);
 
 	JLabel l1 = new JLabel("Username : ");
-	l1.setBounds(124, 89, 95, 24);
+	l1.setBounds(100, 89, 95, 24);
 	panel.add(l1);
 
 	JLabel l2 = new JLabel("Password : ");
-	l2.setBounds(124, 124, 95, 24);
+	l2.setBounds(100, 124, 95, 24);
 	panel.add(l2);
 
 	textField = new JTextField();
@@ -45,13 +46,16 @@ public class Login extends JFrame implements ActionListener{
 	passwordField.setBounds(210, 128, 157, 20);
 	panel.add(passwordField);
 
-	JLabel l3 = new JLabel("");
-	l3.setBounds(377, 79, 46, 34);
-	panel.add(l3);
-
-	JLabel l4 = new JLabel("");
-	l4.setBounds(377, 124, 46, 34);
-	panel.add(l3);
+        
+	JLabel l4 = new JLabel("Logging in as");
+        l4.setBounds(100, 160, 100, 20);
+        add(l4);
+        
+        c1 = new Choice();
+        c1.add("Admin");
+        c1.add("Customer");
+        c1.setBounds(210, 160, 157, 20);
+        add(c1);
 
         ImageIcon c1 = new ImageIcon(ClassLoader.getSystemResource("icon/login.png"));
         Image i1 = c1.getImage().getScaledInstance(150, 150,Image.SCALE_DEFAULT);
@@ -68,7 +72,7 @@ public class Login extends JFrame implements ActionListener{
                 
 	b1.setForeground(new Color(46, 139, 87));
 	b1.setBackground(new Color(176, 224, 230));
-	b1.setBounds(124, 181, 113, 25);
+	b1.setBounds(124, 210, 113, 25);
 	panel.add(b1);
 		
         b2 = new JButton("SignUp");
@@ -76,7 +80,7 @@ public class Login extends JFrame implements ActionListener{
 	
 	b2.setForeground(new Color(139, 69, 19));
 	b2.setBackground(new Color(255, 235, 205));
-	b2.setBounds(289, 181, 113, 25);
+	b2.setBounds(289, 210, 113, 25);
 	panel.add(b2);
 
 	b3 = new JButton("Forgot Password");
@@ -90,7 +94,7 @@ public class Login extends JFrame implements ActionListener{
 	JLabel l5 = new JLabel("Trouble in Login?");
 	l5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	l5.setForeground(new Color(255, 0, 0));
-	l5.setBounds(124, 220, 180, 20);
+	l5.setBounds(124, 290, 180, 20);
 	panel.add(l5);
 
         JPanel panel2 = new JPanel();
@@ -104,16 +108,17 @@ public class Login extends JFrame implements ActionListener{
                 Boolean status = false;
 		try {
                     Conn con = new Conn();
-                    String sql = "select * from login where username=? and password=?";
+                    String sql = "select * from login where username=? and password=? and user=?";
+        
                     PreparedStatement st = con.c.prepareStatement(sql);
 
                     st.setString(1, textField.getText());
                     st.setString(2, passwordField.getText());
-
+                    st.setString(3, c1.getSelectedItem());
                     ResultSet rs = st.executeQuery();
                     if (rs.next()) {
                         this.setVisible(false);
-                        new Loading(textField.getText()).setVisible(true);
+                        new Loading(textField.getText(),c1.getSelectedItem()).setVisible(true);
                     } else
 			JOptionPane.showMessageDialog(null, "Invalid Login or Password!");
                        
@@ -123,7 +128,7 @@ public class Login extends JFrame implements ActionListener{
             }
             if(ae.getSource() == b2){
                 setVisible(false);
-		Signup su = new Signup();
+		Signup su = new Signup("Customer");
 		su.setVisible(true);
             }   
             if(ae.getSource() == b3){

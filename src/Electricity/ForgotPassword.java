@@ -136,7 +136,7 @@ public class ForgotPassword extends JFrame implements ActionListener{
         try{
             Conn con = new Conn();
             if(ae.getSource() == b1){
-                String sql = "select * from account where username=?";
+                String sql = "select * from login where username=?";
 		PreparedStatement st = con.c.prepareStatement(sql);
 
 		st.setString(1, t1.getText());
@@ -149,7 +149,7 @@ public class ForgotPassword extends JFrame implements ActionListener{
 
             }
             if(ae.getSource() == b2){
-                String sql = "select * from account where answer=?";
+                String sql = "select * from login where answer=?";
 		PreparedStatement st = con.c.prepareStatement(sql);
 
 		st.setString(1, t4.getText());

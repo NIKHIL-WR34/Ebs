@@ -19,9 +19,9 @@ public class Loading extends JFrame implements Runnable {
         String username;
 	int s;
 	Thread th;
-
+        String user;
 	public static void main(String[] args) {
-            new Loading("").setVisible(true);
+            new Loading("","").setVisible(true);
 	}
 
 	public void setUploading() {
@@ -40,7 +40,7 @@ public class Loading extends JFrame implements Runnable {
                     } else {
                         i = 201;
                         setVisible(false);
-                        new Project(username).setVisible(true);
+                        new Project(username,user).setVisible(true);
                     }
                     Thread.sleep(50);
                 }
@@ -49,8 +49,9 @@ public class Loading extends JFrame implements Runnable {
             }
 	}
 
-	public Loading(String username) {
+	public Loading(String username,String user) {
             this.username = username;
+            this.user = user;
             th = new Thread((Runnable) this);
 
             setBounds(600, 300, 600, 400);

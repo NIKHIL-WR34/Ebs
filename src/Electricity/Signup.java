@@ -12,13 +12,15 @@ import java.awt.event.*;
 
 public class Signup extends JFrame implements ActionListener{
     JPanel p1;
-    JTextField t1, t2, t3, t4;
+    JTextField t1, t2, t3, t4, t5;
     Choice c1;
     JButton b1, b2;
     String accountType;
-    Signup(String account_type){
-        setBounds(600, 250, 700, 400);
-        this.accountType = account_type;
+    JComboBox comboBox;
+    Signup(String accountType){
+        this.accountType = accountType;
+        setBounds(600, 250, 700, 500);
+       
         p1 = new JPanel();
         p1.setBounds(30, 30, 650, 300);
         p1.setLayout( null);
@@ -75,12 +77,12 @@ public class Signup extends JFrame implements ActionListener{
         JLabel l5 = new JLabel("Meter Number");
         l5.setForeground(Color.DARK_GRAY);
         l5.setFont(new Font("Tahoma", Font.BOLD, 14));
-        l5.setBounds(100, 210, 120, 20);
+        l5.setBounds(100, 290, 120, 20);
         l5.setVisible(false);
         p1.add(l5);
         
         t4 = new JTextField();
-        t4.setBounds(260, 210, 150, 20);
+        t4.setBounds(260, 290, 150, 20);
         t4.setVisible(false);
         p1.add(t4);
         
@@ -103,6 +105,28 @@ public class Signup extends JFrame implements ActionListener{
 //           } 
 //        });
 
+          JLabel lblAnswer = new JLabel("Answer :");
+	lblAnswer.setForeground(Color.DARK_GRAY);
+	lblAnswer.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblAnswer.setBounds(99, 250, 92, 26);
+	p1.add(lblAnswer);
+        
+          t5 = new JTextField();
+        t5.setBounds(260, 250, 150, 20);
+        p1.add(t5);
+
+	comboBox = new JComboBox();
+	comboBox.setModel(new DefaultComboBoxModel(new String[] { "Your NickName?", "Your Lucky Number?",
+			"Your child SuperHero?", "Your childhood Name ?" }));
+	comboBox.setBounds(265, 210, 148, 20);
+	p1.add(comboBox);
+
+	JLabel lblSecurityQuestion = new JLabel("Security Question :");
+	lblSecurityQuestion.setForeground(Color.DARK_GRAY);
+	lblSecurityQuestion.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblSecurityQuestion.setBounds(99, 210, 140, 26);
+	p1.add(lblSecurityQuestion);
+        
         String user = this.accountType;
         if(user.equals("Customer")){
             l5.setVisible(true);
@@ -116,14 +140,14 @@ public class Signup extends JFrame implements ActionListener{
         b1 = new JButton("Create");
         b1.setBackground(Color.BLACK);
         b1.setForeground(Color.WHITE);
-        b1.setBounds(140, 290, 120, 30);
+        b1.setBounds(140, 370, 120, 30);
         b1.addActionListener(this);
         p1.add(b1);
         
         b2 = new JButton("Back");
         b2.setBackground(Color.BLACK);
         b2.setForeground(Color.WHITE);
-        b2.setBounds(300, 290, 120, 30);
+        b2.setBounds(300, 370, 120, 30);
         b2.addActionListener(this);
         p1.add(b2);
         
@@ -142,13 +166,15 @@ public class Signup extends JFrame implements ActionListener{
             String password = t3.getText();
             String user = this.accountType;
             String meter = t4.getText();
+            String Answer = t5.getText();
+            String Security = (String)comboBox.getSelectedItem();
             try{
                 Conn c = new Conn();
                 String str = null;
                 if(user.equals("Admin")){
-                    str = "insert into login values('"+meter+"', '"+username+"', '"+name+"', '"+password+"', '"+user+"')";
+                    str = "insert into login values('"+meter+"', '"+username+"', '"+name+"', '"+password+"','"+Security+"', '"+Answer+"' '"+user+"')";
                 }else{
-                    str = "update login set username = '"+username+"', name = '"+name+"', password = '"+password+"', user = '"+user+"' where meter_no = '"+t4.getText()+"'";
+                    str = "update login set username = '"+username+"', name = '"+name+"', password = '"+password+"', user = '"+user+"', question = '"+Security+"', answer  ='"+Answer+"'  where meter_no = '"+t4.getText()+"'";
                 }
                 
                 c.s.executeUpdate(str);
@@ -158,7 +184,7 @@ public class Signup extends JFrame implements ActionListener{
                     new Login().setVisible(true);
                 }
             }catch(Exception e){
-                
+             e.printStackTrace();   
             }
         } else if(ae.getSource()== b2){
             this.setVisible(false);

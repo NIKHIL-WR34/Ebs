@@ -153,7 +153,7 @@ public class NewCustomer extends JFrame implements ActionListener{
             }
 
             String q1 = "insert into customer values('"+name+"','"+meter+"','"+address+"','"+city+"','"+state+"','"+email+"','"+phone+"')";
-            String q2 = "insert into login values('"+meter+"', '', '', '', '')";
+            String q2 = "insert into login values('"+meter+"', '', '', '', '' ,'' , '')";
             try{
                 Conn c1 = new Conn();
                 c1.s.executeUpdate(q1);
